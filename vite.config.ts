@@ -2,7 +2,7 @@ import path from 'path';
 import checker from 'vite-plugin-checker';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
-
+import fs from 'fs';
 // ----------------------------------------------------------------------
 
 const PORT = 3001;
@@ -34,6 +34,13 @@ export default defineConfig({
       },
     ],
   },
-  server: { port: PORT, host: true },
+  server: { 
+    port: PORT, 
+    host: true ,
+    https: {
+      key: fs.readFileSync(path.resolve(__dirname, 'key.pem')),
+      cert: fs.readFileSync(path.resolve(__dirname, 'cert.pem')),
+  },
+},
   preview: { port: PORT, host: true },
 });
