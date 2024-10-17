@@ -34,16 +34,10 @@ const renderFallback = (
 export function Router() {
   return useRoutes([
     {
+      path: '/',
       element: (
-        <DashboardLayout>
-          <Suspense fallback={renderFallback}>
-            <Outlet />
-          </Suspense>
-        </DashboardLayout>
+            < RegistrationForm />
       ),
-      children: [
-        { element: <HomePage />, index: true }
-      ],
     },
     {
       path: 'sign-in',
@@ -59,11 +53,29 @@ export function Router() {
     },
     {
       path: 'tiquetera',
-      element: <RegistrationForm/>,
+      element: (
+        <DashboardLayout>
+          <Suspense fallback={renderFallback}>
+            <Outlet />
+          </Suspense>
+        </DashboardLayout>
+      ),
+      children: [
+        { element: <ComprasPagos  />, index: true }
+      ],
     },
     {
-      path: 'caja',
-      element: <ComprasPagos/>,
+      path: 'home',
+      element: (
+        <DashboardLayout>
+          <Suspense fallback={renderFallback}>
+            <Outlet />
+          </Suspense>
+        </DashboardLayout>
+      ),
+      children: [
+        { element: <HomePage  />, index: true }
+      ],
     },
     {
       path: '*',
@@ -71,8 +83,16 @@ export function Router() {
     },
     {
       path: 'escaner',
-      element: <Scan />
+      element: (
+        <DashboardLayout>
+          <Suspense fallback={renderFallback}>
+            <Outlet />
+          </Suspense>
+        </DashboardLayout>
+      ),
+      children: [
+        { element: <Scan  />, index: true }
+      ],
     }
-    
   ]);
 }
