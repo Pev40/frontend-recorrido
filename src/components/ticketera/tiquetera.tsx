@@ -206,7 +206,7 @@ export default function RegistrationForm() {
             >
               <Box display="flex" flexDirection="column" alignItems="center">
                 <img
-                  src="public/logorecorrido.png"
+                  src="/logorecorrido.png"
                   alt="Recorrido Nocturno"
                   style={{
                     width: '60%',
@@ -258,7 +258,7 @@ export default function RegistrationForm() {
                   </>
                 )}
                 <img
-                  src="/public/qr.jpg"
+                  src="/qr.jpg"
                   alt="QR del Evento"
                   style={{
                     width: '60%',
