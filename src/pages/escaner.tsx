@@ -1,94 +1,52 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Typography, Box, Button, Card, Modal } from '@mui/material';
-import QrScanner from 'react-qr-scanner';
+import React, { useEffect } from 'react';
+import { Html5QrcodeScanner } from 'html5-qrcode';
 
-const Escaner: React.FC = () => {
-  const [qrCode, setQrCode] = useState<string | null>(null);
-  const [error, setError] = useState<Error | null>(null);
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [isCameraSupported, setIsCameraSupported] = useState<boolean>(true);
+import { Box, Card, Container, Typography } from '@mui/material';
 
+const EscanerQR: React.FC = () => {
   useEffect(() => {
-    // Verificar si getUserMedia está disponible
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-      setIsCameraSupported(false);
-    }
+    // Función para manejar el éxito del escaneo
+    const onScanSuccess = (decodedText: string, decodedResult: any) => {
+      console.log(`Scan result: ${decodedText}`, decodedResult);
+      // Aquí puedes manejar el texto escaneado, mostrarlo, guardarlo en el estado, etc.
+    };
+
+    // Función para manejar el error de escaneo
+    const onScanError = (errorMessage: string) => {
+      console.warn(`Scan error: ${errorMessage}`);
+      // Aquí puedes manejar el error o simplemente ignorarlo
+    };
+
+    // Inicializar el escáner de QR
+    const html5QrcodeScanner = new Html5QrcodeScanner(
+      "reader", { fps: 10, qrbox: 250 }, false
+    );
+
+    // Iniciar el escaneo
+    html5QrcodeScanner.render(onScanSuccess, onScanError);
+
+    // Limpiar el escáner cuando el componente se desmonte
+    return () => {
+      html5QrcodeScanner.clear();
+    };
   }, []);
 
-  const handleScan = (data: { text: string } | null) => {
-    if (data) {
-      setQrCode(data.text);
-      setModalOpen(true); // Abre el modal cuando se escanea el código
-    }
-  };
-
-  const handleError = (err: Error) => {
-    console.error("Error al acceder a la cámara:", err);
-    setError(err);
-  };
-
-  const handleCloseModal = () => {
-    setModalOpen(false); // Cierra el modal
-  };
-
   return (
-    <Container>
-      <Box display="flex" alignItems="center" mb={5}>
-        <Typography variant="h4" flexGrow={1}>
-          Escáner de Códigos QR
-        </Typography>
+    <Container maxWidth="sm" style={{ textAlign: 'center', paddingTop: '50px' }}>
+      <Box mb={3}>
+        <Typography variant="h4">Escáner de Códigos QR</Typography>
       </Box>
-
-      {/* Escáner de QR */}
-      {isCameraSupported ? (
-        <Card sx={{ p: 4, textAlign: 'center' }}>
+      
+      <Card sx={{ p: 4 }}>
+        <Box display="flex" justifyContent="center" flexDirection="column" alignItems="center">
           <Typography variant="h6" gutterBottom>
-            Escanea tu código QR
+            Coloca tu código QR frente a la cámara
           </Typography>
-          <QrScanner
-            delay={300}
-            onError={handleError}
-            onScan={handleScan}
-            style={{ width: '100%', maxWidth: 400 }}
-          />
-          {error && (
-            <Typography variant="body1" color="error" sx={{ mt: 2 }}>
-              Error: {error.message}
-            </Typography>
-          )}
-        </Card>
-      ) : (
-        <Typography variant="h6" color="error">
-          La cámara no es compatible en este navegador.
-        </Typography>
-      )}
-
-      {/* Modal para mostrar el resultado del escaneo */}
-      <Modal open={modalOpen} onClose={handleCloseModal}>
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 400,
-            bgcolor: 'background.paper',
-            boxShadow: 24,
-            p: 4,
-            borderRadius: 2,
-          }}
-        >
-          <Typography variant="h6">Resultado del Escaneo</Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            {qrCode ? `Código QR Escaneado: ${qrCode}` : 'No se escaneó ningún código.'}
-          </Typography>
-          <Button onClick={handleCloseModal} variant="contained" color="primary">
-            Cerrar
-          </Button>
+          <div id="reader" style={{ width: '100%', maxWidth: '400px' }} />
         </Box>
-      </Modal>
+      </Card>
     </Container>
   );
 };
 
-export default Escaner;
+export default EscanerQR;
