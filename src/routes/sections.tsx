@@ -52,7 +52,7 @@ export function Router() {
       element: <Page404 />,
     },
     {
-      path: 'tiquetera',
+      path: 'caja',
       element: (
         <DashboardLayout>
           <Suspense fallback={renderFallback}>

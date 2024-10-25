@@ -51,7 +51,7 @@ export default function RegistrationForm() {
   // Simula la consulta de un API para obtener el nombre por DNI
   const handleConsultarNombre = async () => {
     try {
-      const response = await axios.get(`http://localhost:18755/api/reniec/${dni}`);
+      const response = await axios.get(`http://190.102.142.247:82/api/reniec/${dni}`);
 
       if (response.status === 200) {
         const { nombres, apellidoPaterno, apellidoMaterno } = response.data;
@@ -106,7 +106,7 @@ export default function RegistrationForm() {
       for (const [key, value] of formData.entries()) {
         console.log(`${key}: ${value}`);
       }
-      const response = await axios.post('http://localhost:18755/api/compras', formData, {
+      const response = await axios.post('http://190.102.142.247:82/api/compras', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

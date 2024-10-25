@@ -31,7 +31,7 @@ export const navData = [
   
   {
     title: 'Tiquetera',
-    path: '/tiquetera',
+    path: '/',
     icon: icon('ic-lock'),
   },
   {
