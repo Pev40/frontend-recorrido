@@ -50,7 +50,7 @@ export default function ComprasPagos() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('https://190.102.142.247:82/api/compras/obtener');
+      const response = await axios.get('http://190.102.142.247:82/api/compras/obtener');
       setData(response.data);
     } catch (error) {
       console.error('Error al obtener los datos:', error);
@@ -74,7 +74,7 @@ export default function ComprasPagos() {
 
     try {
       // Llamada al endpoint para aprobar la compra
-      await axios.post('https://190.102.142.247:82/api/compras/aprobar', null, {
+      await axios.post('http://190.102.142.247:82/api/compras/aprobar', null, {
         params: {
           idCompra: selectedCompra.idCompra,
           idUsuarioAprobo: 1, // Aquí puedes enviar el ID del usuario que aprueba (por ejemplo, del contexto)
